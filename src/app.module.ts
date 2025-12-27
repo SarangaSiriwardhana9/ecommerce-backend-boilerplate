@@ -11,6 +11,7 @@ import { ProductVariantsModule } from './modules/product-variants/product-varian
 import { DiscountsModule } from './modules/discounts/discounts.module';
 import { CartModule } from './modules/cart/cart.module';
 import { OrdersModule } from './modules/orders/orders.module';
+import { ReviewsModule } from './modules/reviews/reviews.module';
 import { databaseConfig, jwtConfig } from './config';
 
 @Module({
@@ -40,6 +41,7 @@ import { databaseConfig, jwtConfig } from './config';
     DiscountsModule,
     CartModule,
     OrdersModule,
+    ReviewsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
