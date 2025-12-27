@@ -8,6 +8,8 @@ import { UsersModule } from './modules/users/users.module';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { ProductsModule } from './modules/products/products.module';
 import { ProductVariantsModule } from './modules/product-variants/product-variants.module';
+import { DiscountsModule } from './modules/discounts/discounts.module';
+import { CartModule } from './modules/cart/cart.module';
 import { databaseConfig, jwtConfig } from './config';
 
 @Module({
@@ -34,6 +36,8 @@ import { databaseConfig, jwtConfig } from './config';
     CategoriesModule,
     ProductsModule,
     ProductVariantsModule,
+    DiscountsModule,
+    CartModule,
   ],
   controllers: [AppController],
   providers: [AppService],
