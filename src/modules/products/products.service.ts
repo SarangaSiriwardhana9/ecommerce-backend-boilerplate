@@ -141,7 +141,14 @@ export class ProductsService {
             throw new NotFoundException('Product not found');
         }
 
-        await this.productsRepository.softDelete(id);
+        // Delete product images from Supabase if they exist
+        if (product.images && product.images.length > 0) {
+            const { deleteProductImages } = await import('../../common/utils/supabase.util');
+            const imageUrls = product.images.map(img => img.url);
+            await deleteProductImages(imageUrls);
+        }
+
+        await this.productsRepository.hardDelete(id);
         return { message: 'Product deleted successfully' };
     }
 

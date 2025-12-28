@@ -40,9 +40,15 @@ export class ProductsController {
         };
     }
 
-    @Get(':slug')
-    async findBySlug(@Param('slug') slug: string) {
-        const product = await this.productsService.findBySlug(slug);
+    @Get(':identifier')
+    async findBySlugOrId(@Param('identifier') identifier: string) {
+        // Check if identifier is a valid MongoDB ObjectId (24 hex characters)
+        const isObjectId = /^[0-9a-fA-F]{24}$/.test(identifier);
+
+        const product = isObjectId
+            ? await this.productsService.findById(identifier)
+            : await this.productsService.findBySlug(identifier);
+
         return {
             data: product,
             message: 'Product retrieved successfully'

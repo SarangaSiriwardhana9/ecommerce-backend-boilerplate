@@ -171,4 +171,8 @@ export class ProductsRepository {
         if (!product.trackInventory) return true;
         return product.stock >= quantity || product.allowBackorder;
     }
+
+    async hardDelete(id: string): Promise<Product | null> {
+        return this.productModel.findByIdAndDelete(id).exec();
+    }
 }
