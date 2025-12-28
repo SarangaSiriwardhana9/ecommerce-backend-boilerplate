@@ -63,6 +63,43 @@ export class ProductVariantsService {
         return this.variantsRepository.update(id, updateDto as any);
     }
 
+    async bulkCreate(productId: string, variants: any[]) {
+        const product = await this.productsService.findById(productId);
+        if (!product.hasVariants) {
+            throw new BadRequestException('Product does not support variants');
+        }
+
+        const skus = variants.map(v => v.sku);
+        const existingVariants = await this.variantsRepository.findBySku(skus[0]);
+        if (existingVariants) {
+            throw new ConflictException('One or more SKUs already exist');
+        }
+
+        const variantsData = variants.map(v => ({
+            ...v,
+            productId: new Types.ObjectId(productId),
+        }));
+
+        const created = [];
+        for (const variantData of variantsData) {
+            const variant = await this.variantsRepository.create(variantData);
+            created.push(variant);
+        }
+
+        return created;
+    }
+
+    async deleteByProduct(productId: string) {
+        await this.productsService.findById(productId);
+        const variants = await this.variantsRepository.findByProduct(productId);
+
+        for (const variant of variants) {
+            await this.variantsRepository.delete(variant._id.toString());
+        }
+
+        return { message: `${variants.length} variants deleted successfully` };
+    }
+
     async delete(id: string) {
         const variant = await this.variantsRepository.findById(id);
         if (!variant) {

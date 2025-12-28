@@ -51,6 +51,26 @@ export class ProductVariantsController {
         };
     }
 
+    @Post('bulk/:productId')
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('admin', 'super_admin')
+    async bulkCreate(@Param('productId') productId: string, @Body() body: unknown) {
+        const { variants } = body as { variants: any[] };
+        const createdVariants = await this.variantsService.bulkCreate(productId, variants);
+        return {
+            data: createdVariants,
+            message: `${createdVariants.length} variants created successfully`
+        };
+    }
+
+    @Delete('product/:productId')
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('admin', 'super_admin')
+    async deleteByProduct(@Param('productId') productId: string) {
+        const result = await this.variantsService.deleteByProduct(productId);
+        return result;
+    }
+
     @Delete(':id')
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles('admin', 'super_admin')
