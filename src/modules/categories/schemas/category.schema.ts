@@ -13,7 +13,7 @@ export const createCategorySchema = z.object({
     slug: z.string().min(1, 'Slug is required').max(100).regex(/^[a-z0-9-]+$/, 'Slug must contain only lowercase letters, numbers, and hyphens'),
     description: z.string().optional(),
     parentCategory: z.string().optional(),
-    image: z.string().url().optional(),
+    images: z.array(z.string().url()).max(4, 'Maximum 4 images allowed').optional().default([]),
     icon: z.string().optional(),
     metaTitle: z.string().max(60).optional(),
     metaDescription: z.string().max(160).optional(),
@@ -27,9 +27,9 @@ export const createCategorySchema = z.object({
 export const updateCategorySchema = createCategorySchema.partial();
 
 export const categoryQuerySchema = z.object({
-    includeInactive: z.boolean().optional().default(false),
+    includeInactive: z.coerce.boolean().optional().default(false),
     parentId: z.string().optional(),
-    isFeatured: z.boolean().optional(),
+    isFeatured: z.coerce.boolean().optional(),
 });
 
 export type CreateCategoryDto = z.infer<typeof createCategorySchema>;

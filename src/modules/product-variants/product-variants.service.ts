@@ -80,7 +80,7 @@ export class ProductVariantsService {
             productId: new Types.ObjectId(productId),
         }));
 
-        const created = [];
+        const created: any[] = [];
         for (const variantData of variantsData) {
             const variant = await this.variantsRepository.create(variantData);
             created.push(variant);
@@ -94,7 +94,7 @@ export class ProductVariantsService {
         const variants = await this.variantsRepository.findByProduct(productId);
 
         for (const variant of variants) {
-            await this.variantsRepository.delete(variant._id.toString());
+            await this.variantsRepository.delete((variant as any)._id.toString());
         }
 
         return { message: `${variants.length} variants deleted successfully` };

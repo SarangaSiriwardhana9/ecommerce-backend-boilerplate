@@ -39,8 +39,8 @@ export class Category extends Document {
     @Prop({ default: '' })
     path: string;
 
-    @Prop()
-    image: string;
+    @Prop({ type: [String], default: [] })
+    images: string[];
 
     @Prop()
     icon: string;
