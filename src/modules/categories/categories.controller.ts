@@ -28,12 +28,22 @@ export class CategoriesController {
         };
     }
 
+
     @Get('featured')
     async getFeatured() {
         const categories = await this.categoriesService.findFeatured();
         return {
             data: categories,
             message: 'Featured categories retrieved successfully'
+        };
+    }
+
+    @Get('id/:id')
+    async findById(@Param('id') id: string) {
+        const category = await this.categoriesService.findById(id);
+        return {
+            data: category,
+            message: 'Category retrieved successfully'
         };
     }
 
@@ -45,6 +55,7 @@ export class CategoriesController {
             message: 'Category retrieved successfully'
         };
     }
+
 
     @Post()
     @UseGuards(JwtAuthGuard, RolesGuard)
