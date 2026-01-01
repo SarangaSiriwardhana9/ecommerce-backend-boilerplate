@@ -138,7 +138,19 @@ export class CategoriesService {
                 return true;
             }
             const parent = await this.categoriesRepository.findById(currentId);
-            currentId = parent?.parentCategory?.toString() || '';
+
+            // Handle both populated object and string ID
+            if (parent?.parentCategory) {
+                if (typeof parent.parentCategory === 'string') {
+                    currentId = parent.parentCategory;
+                } else if (typeof parent.parentCategory === 'object') {
+                    currentId = (parent.parentCategory as any)._id?.toString() || '';
+                } else {
+                    currentId = '';
+                }
+            } else {
+                currentId = '';
+            }
         }
         return false;
     }
