@@ -40,8 +40,8 @@ export const createProductSchema = z.object({
     name: z.string().min(1, 'Product name is required').max(200),
     slug: z.string().min(1, 'Slug is required').max(200).regex(/^[a-z0-9-]+$/, 'Slug must contain only lowercase letters, numbers, and hyphens'),
     sku: z.string().min(1, 'SKU is required').max(100),
-    shortDescription: z.string().max(200).optional(),
-    description: z.string().optional(),
+    shortDescription: z.string().max(1000).optional(), // Increased to accommodate HTML formatting
+    description: z.string().max(20000).optional(), // Increased to accommodate HTML formatting
     categories: z.array(z.string()).optional().default([]),
     primaryCategory: z.string().optional(),
     tags: z.array(z.string()).optional().default([]),

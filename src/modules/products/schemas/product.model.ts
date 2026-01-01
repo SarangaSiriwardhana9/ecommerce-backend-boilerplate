@@ -84,10 +84,10 @@ export class Product extends Document {
     @Prop({ required: true, unique: true, uppercase: true, trim: true })
     sku: string;
 
-    @Prop({ maxlength: 200 })
+    @Prop({ maxlength: 1000 }) // Increased to accommodate HTML formatting
     shortDescription: string;
 
-    @Prop()
+    @Prop({ maxlength: 20000 }) // Increased to accommodate HTML formatting
     description: string;
 
     @Prop({ type: [{ type: Types.ObjectId, ref: 'Category' }], default: [] })
